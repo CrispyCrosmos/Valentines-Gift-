@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Gift</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: pink;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            position: relative;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        h1 {
+            color: red;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 18px;
+        }
+        .heart-button {
+            font-size: 20px;
+            padding: 15px 25px;
+            background-color: #ff1493; /* Brighter pink */
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: 0.3s;
+            position: relative;
+        }
+        .heart-button:hover {
+            background-color: #ff69b4;
+        }
+        #videoContainer {
+            display: none;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.8);
+            position: fixed;
+            top: 0;
+            left: 0;
+            justify-content: center;
+            align-items: center;
+            z-index: 3;
+        }
+        video {
+            width: 1920px;
+            height: 1080px;
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        .floating-heart {
+            position: absolute;
+            color: red;
+            font-size: 20px;
+            animation: float 4s linear infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-100vh); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Happy Valentine's Day! ❤️</h1>
+    <p>Click the button below to open your surprise!</p>
+    <button class="heart-button" onclick="showVideo()">❤️</button>
+    
+    <div id="videoContainer">
+        <video id="valentineVideo" controls>
+            <source src="valentine_gift.mov" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    
+    <audio id="boxSound">
+        <source src="opening_box.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        function showVideo() {
+            let button = document.querySelector(".heart-button");
+            let audio = document.getElementById("boxSound");
+            audio.play(); // Play opening box sound
+            createHeartEffect(button);
+            setTimeout(() => {
+                button.style.display = "none";
+                document.getElementById("videoContainer").style.display = "flex";
+                let video = document.getElementById("valentineVideo");
+                video.play();
+            }, 1000);
+        }
+
+        function createHeartEffect(element) {
+            for (let i = 0; i < 15; i++) {
+                let heart = document.createElement("div");
+                heart.innerHTML = "❤️";
+                heart.classList.add("floating-heart");
+                let rect = element.getBoundingClientRect();
+                heart.style.left = rect.left + Math.random() * rect.width + "px";
+                heart.style.top = rect.top + Math.random() * rect.height + "px";
+                heart.style.position = "absolute";
+                heart.style.fontSize = "20px";
+                heart.style.animationDuration = (Math.random() * 2 + 2) + "s";
+                document.body.appendChild(heart);
+                setTimeout(() => { heart.remove(); }, 4000);
+            }
+        }
+    </script>
+</body>
+</html>
